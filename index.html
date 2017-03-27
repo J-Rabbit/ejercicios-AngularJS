@@ -1,0 +1,83 @@
+<!--
+* Desarrollador: Jhon Jairo Salazar Agudelo
+* 27-03-2017
+* Este aplicativo sirve para mostrar las estrofas del himno del sena
+* tecleando su respectivo número de 0-4 (0 es el coro).
+-->
+
+<html ng-app="acumuladorApp"><!--Hay que observar que aquí se inicia el ng-app-->
+
+<head>
+
+	<title>Himno SENA</title>
+<!-- Importar el js que se ha descargado del sitio de angular, no la última versión. -->
+    <script src="js/angular.min.js"></script>
+    <link  rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body id="fondo" background="img/fondo.jpg">
+	<center>
+		<br><br><br><br><br><br><br>
+		<h1>Mostrar Estrofa Tecleando El Número</h1><h3>con AngularJs</h3>
+
+		 <!-- Este div se convierte en parte de la aplicación o del contexto de ese controlador -->
+		<div ng-controller="acumuladorAppCtrl">
+			<div class="col-ms-3">
+		 		<input class="form-control " type="number" id="bus" ng-model="dato1" placeholder="Ingrese # estrofa" ng-change="busqueda()">
+
+				<ng-include src="Url"></ng-include>
+				
+			</div>
+
+		</div>
+	</center>	
+	<script type="text/javascript">
+		 var acumuladorApp = angular.module( 'acumuladorApp', [] );
+        
+        acumuladorApp.controller( "acumuladorAppCtrl",
+            
+            //[ "$scope",  //Originalmente solo se minificaba el scope.
+            [ "$scope", "$http", //Esto es para minificar, pero interfiere con lo de php, hay que minificar las otras variables.
+             
+                function( $scope, $http )
+                {
+                    /**
+                     * Esta función se activa al usar el texto 2.
+                     */
+                    $scope.busqueda = function (a)
+                    {
+                    	var buscar=$scope.dato1;
+                    	if (buscar > 4 ) 
+                    	{
+                    		alert('Ingrese un valor valido entre 0 - 4 ');
+                    		document.getElementById('bus').value="";
+                    	}else{
+	                    	$scope.Url = "";
+	                    	switch(buscar) {
+							    case 0:
+							        $scope.Url="estrofa1.html";
+							        break;
+							    case 1:
+							        $scope.Url="estrofas.html";
+							        break;
+							    case 2:
+							        $scope.Url="estrofa2.html";
+							        break;
+							    case 3:
+							        $scope.Url="estrofa3.html";
+							        break;
+							    case 4:
+							        $scope.Url="estrofa4.html";
+							        break;
+							}
+                    	}
+                    }
+                }
+            ] //Si se minifica, se deben minificar todas las llamadas inyecciones, de lo contrario mejor no minifique nada.
+        );
+
+	</script>
+</body>
+
+</html>
